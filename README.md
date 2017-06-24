@@ -14,5 +14,8 @@ React Native currency conversion app
 http://fixer.io/ for currency conversion
 
 ### Modules
+- moment
+- native-base
 - redux
 - redux-persist
+- redux-saga
