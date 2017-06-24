@@ -8,7 +8,7 @@ React Native currency conversion app
 - Store the previous conversions in a list
 - Allow the user to remove a stored currency conversion
 
-##Dependencies
+## Dependencies
 
 ### APIs
 http://fixer.io/ for currency conversion
