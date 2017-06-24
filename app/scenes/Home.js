@@ -1,19 +1,30 @@
 import React from 'react';
 import {
 	Container,
-	Text
+	Content,
+	Text,
 } from 'native-base';
+import { Col, Row, Grid } from 'react-native-easy-grid';
 
 import Header from '../components/AppHeader';
+import ConversionCard from '../components/ConversionCard';
+import HistoryCard from '../components/HistoryCard';
 
 const Home = () => (
 	<Container>
 		<Header
 			title="Converrency"
 		/>
-		<Text>
-			I'm home!
-		</Text>
+		<Content>
+			<Grid>
+				<Row>
+					<ConversionCard />
+				</Row>
+				<Row>
+					<HistoryCard />
+				</Row>
+			</Grid>
+		</Content>
 	</Container>
 );
 
