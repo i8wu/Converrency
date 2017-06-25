@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
+	REMOVE_HISTORY,
 	SUBMIT_CONVERSION,
 	SUBMIT_ENTRY,
 	SUBMIT_OPTION_FROM,
@@ -9,9 +10,10 @@ import {
 } from '../constants/reduxConstants';
 import HistoryCard from '../components/HistoryCard';
 
-const HistoryCardActual = ({ history }) => (
+const HistoryCardActual = ({ history, removeHistory }) => (
 	<HistoryCard
 		history={history}
+		removeHistory={removeHistory}
 	/>
 );
 
@@ -23,14 +25,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		onConvert: (value) => {
-			dispatch({ type: SUBMIT_CONVERSION, value });
-		},
-		onSelectFrom: (option) => {
-			dispatch({ type: SUBMIT_OPTION_FROM, option });
-		},
-		onSelectTo: (option) => {
-			dispatch({ type: SUBMIT_OPTION_TO, option });
+		removeHistory: (id) => {
+			dispatch({ type: REMOVE_HISTORY, id });
 		},
 	};
 }

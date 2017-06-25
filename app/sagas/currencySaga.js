@@ -2,6 +2,7 @@ import { put, takeLatest, select, takeEvery, call } from 'redux-saga/effects';
 import moment from 'moment';
 
 import {
+	REMOVE_HISTORY,
 	SUBMIT_CONVERSION,
 	SUBMIT_OPTION_FROM,
 	SUBMIT_OPTION_TO,
@@ -14,6 +15,23 @@ import currencyService from '../services/currencyService';
 
 const getCurrency = state => state.currency;
 
+function* removeHistory(action) {
+	const { history }  = yield select(getCurrency);
+
+	// Clone history object and add new conversion
+	const newByIds = { ...history.byId };
+	delete newByIds[action.id];
+	// sort then reverse so newest is on top
+	const newAllIds = Object.keys(newByIds).sort().reverse();
+
+	// Construct new history from old history
+	const newHistory = Object.assign({}, history, {
+			byId: newByIds,
+			allIds: newAllIds
+		});
+
+	yield put({ type: UPDATE_HISTORY, history: newHistory });
+}
 
 function* updateConversion(action) {
 	const { optionFrom, optionTo, history }  = yield select(getCurrency);
@@ -65,6 +83,7 @@ function* updateRates() {
 }
 
 export default function* currencySaga() {
+	yield takeLatest(REMOVE_HISTORY, removeHistory);
 	yield takeLatest(SUBMIT_OPTION_FROM, updateOptionFrom);
 	yield takeLatest(SUBMIT_OPTION_TO, updateOptionTo);
 	yield takeLatest(SUBMIT_CONVERSION, updateConversion);

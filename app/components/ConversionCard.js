@@ -5,6 +5,7 @@ import {
 	CardItem,
 	Icon,
 	Input,
+	Item,
 	Picker,
 	Text,
 } from 'native-base';
@@ -13,7 +14,7 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import Header from '../components/AppHeader';
 
 const ConversionCard = ({
-	convertedValue, currencyList, doConversion, fromValue, onSelectFrom, 
+	convertedValue, currencyList, doConversion, error, fromValue, onSelectFrom, 
 	onSelectTo, optionTo, optionFrom, swapOptions, updateFromValue
 }) => (
 	<Card>
@@ -49,19 +50,23 @@ const ConversionCard = ({
 			</Grid>
 		</CardItem>
 		<CardItem>
-			<Input
-				keyboardType="numeric"
-				placeholder="Enter value to convert"
-				onChangeText={(val) => updateFromValue(val)}
-				value={fromValue}
-			/>
-			<Button
-				onPress={() => doConversion()}
+			<Item
+				error={error}
 			>
-				<Text>
-					Convert
-				</Text>
-			</Button>
+				<Input
+					keyboardType="numeric"
+					placeholder="Enter value to convert"
+					onChangeText={(val) => updateFromValue(val)}
+					value={fromValue}
+				/>
+				<Button
+					onPress={() => doConversion()}
+				>
+					<Text>
+						Convert
+					</Text>
+				</Button>
+			</Item>
 		</CardItem>
 		<CardItem>
 			<Input
@@ -81,7 +86,10 @@ const SwapButton = ({ onPress }) => (
 		light
 		onPress={() => onPress()}
 	>
-		<Icon ios='ios-swap' android="md-swap" />
+		<Icon
+			ios='ios-swap'
+			android="md-swap"
+		/>
 	</Button>
 );
 
