@@ -16,6 +16,8 @@ http://fixer.io/ for currency conversion
 ### Modules
 - moment
 - native-base
+- react-native-exception-handler
+- react-native-exit-app
 - redux
 - redux-persist
 - redux-saga
