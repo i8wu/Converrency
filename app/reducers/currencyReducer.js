@@ -1,5 +1,6 @@
 import {
 	RECEIVE_RATES,
+	UPDATE_HISTORY,
 	UPDATE_OPTION_FROM,
 	UPDATE_OPTION_TO,
 } from '../constants/reduxConstants';
@@ -24,6 +25,11 @@ export default function currency(state = initialState, action) {
 		return Object.assign({}, state, {
 			rates: action.rates
 		});
+	}
+	case UPDATE_HISTORY: {
+		return Object.assign({}, state, {
+			history: action.history
+		}); 
 	}
 	case UPDATE_OPTION_FROM: {
 		return Object.assign({}, state, {

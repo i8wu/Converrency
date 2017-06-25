@@ -15,7 +15,10 @@ const Home = () => (
 		<Header
 			title="Converrency"
 		/>
-		<Content>
+		<Content
+			// Keeps keyboard up if buttons are pressed
+			keyboardShouldPersistTaps="handled"
+		>
 			<Grid>
 				<Row>
 					<ConversionCard />
