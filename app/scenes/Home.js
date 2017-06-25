@@ -7,7 +7,7 @@ import {
 import { Col, Row, Grid } from 'react-native-easy-grid';
 
 import Header from '../components/AppHeader';
-import ConversionCard from '../components/ConversionCard';
+import ConversionCard from '../containers/ConversionCardActual';
 import HistoryCard from '../components/HistoryCard';
 
 const Home = () => (

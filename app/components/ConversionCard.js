@@ -12,36 +12,35 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 
 import Header from '../components/AppHeader';
 
-const currencies = [
-	'USD',
-	'AUD',
-	'BGN'
-]
-
-const ConversionCard = ({ updateConversion, convertedValue }) => (
+const ConversionCard = ({
+	currencyList, onSelectFrom, onSelectTo, optionTo, optionFrom,
+	updateConversion, convertedValue
+}) => (
 	<Card>
 		<CardItem>
 			<Grid>
 				<Row>
 					<Col
-					size={2}
+						size={2}
 					>
 						<CurrencyPicker
-						currencyList={currencies}
-						onValueChange={(val) => console.log(val)}
+							currencyList={currencyList}
+							selected={optionFrom}
+							onValueChange={(val) => onSelectFrom(val)}
 						/>
 					</Col>
 					<Col
-					size={1}
+						size={1}
 					>
 						<SwapButton />
 					</Col>
 					<Col
-					size={2}
+						size={2}
 					>
 						<CurrencyPicker
-						currencyList={currencies}
-						onValueChange={(val) => console.log(val)}
+							currencyList={currencyList}
+							selected={optionTo}
+							onValueChange={(val) => onSelectTo(val)}
 						/>
 					</Col>
 				</Row>
