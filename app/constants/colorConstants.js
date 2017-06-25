@@ -1,3 +1,4 @@
+export const LIGHT = '#E0F7FA' // 50
 export const PRIMARY = '#00BCD4'; // 500
 export const SECONDARY = '#26C6DA'; // 400
 export const THIRDARY = '#4DD0E1'; // 300

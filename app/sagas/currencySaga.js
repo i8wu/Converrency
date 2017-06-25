@@ -20,14 +20,17 @@ function* updateConversion(action) {
 
 	// Clone history object and add new conversion
 	const newByIds = { ...history.byId };
-	const nextId = history.byId.length;
+	const timestamp = Date.now();
+	const nextId = timestamp + optionFrom + optionTo; // Very simple hash
 	newByIds[nextId] = {
 		optionFrom,
 		optionTo,
-		timestamp: Date.now(),
-		value: action.value,
+		timestamp,
+		fromValue: action.fromValue,
+		convertedValue: action.convertedValue,
 	}
-	const newAllIds = Object.keys(newByIds).sort();
+	// sort then reverse so newest is on top
+	const newAllIds = Object.keys(newByIds).sort().reverse();
 
 	// Construct new history from old history
 	const newHistory = Object.assign({}, history, {
@@ -48,10 +51,15 @@ function* updateOptionTo(action) {
 
 function* updateRates() {
 	console.log('called');
+	const { optionFrom, optionTo }  = yield select(getCurrency);
 	const rates = yield call(currencyService.fetchRates);
 
 	if (rates) {
-		// TODO: Update options if null
+		// Set default options if haven't been selected
+		if (!optionFrom || !optionTo) {
+			yield put({ type: UPDATE_OPTION_FROM, option: rates.allIds[0] });
+			yield put({ type: UPDATE_OPTION_TO, option: rates.allIds[0] });
+		}
 		yield put({ type: RECEIVE_RATES, rates: rates });
 	}
 }
@@ -59,6 +67,6 @@ function* updateRates() {
 export default function* currencySaga() {
 	yield takeLatest(SUBMIT_OPTION_FROM, updateOptionFrom);
 	yield takeLatest(SUBMIT_OPTION_TO, updateOptionTo);
-	yield takeEvery(SUBMIT_CONVERSION, updateConversion);
+	yield takeLatest(SUBMIT_CONVERSION, updateConversion);
 	yield call(updateRates);
 }

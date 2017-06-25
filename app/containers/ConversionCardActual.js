@@ -6,7 +6,6 @@ import {
 	SUBMIT_ENTRY,
 	SUBMIT_OPTION_FROM,
 	SUBMIT_OPTION_TO,
-
 } from '../constants/reduxConstants';
 import ConversionCard from '../components/ConversionCard';
 
@@ -31,7 +30,7 @@ class ConversionCardActual extends React.Component {
 		).toFixed(2); // toFixed keeps decimals to 2 places
 
 		this.setState({ convertedValue });
-		onConvert(convertedValue); // Update history
+		onConvert(this.state.fromValue, convertedValue); // Update history
 	}
 
 	swapOptions = () => {
@@ -71,8 +70,6 @@ class ConversionCardActual extends React.Component {
 	}
 }
 
-
-
 function mapStateToProps(state) {
 	return {
 		currencyList: state.currency.rates.allIds,
@@ -84,8 +81,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		onConvert: (value) => {
-			dispatch({ type: SUBMIT_CONVERSION, value });
+		onConvert: (fromValue, convertedValue) => {
+			dispatch({ type: SUBMIT_CONVERSION, fromValue, convertedValue });
 		},
 		onSelectFrom: (option) => {
 			dispatch({ type: SUBMIT_OPTION_FROM, option });
