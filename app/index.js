@@ -14,7 +14,7 @@ export default class Converrency extends Component {
 		super(props);
 
 		this.state = {
-			store: configureStore({}, () => this.finishLoading),
+			store: configureStore({}, this.finishLoading),
 			isLoading: true,
 		};
 	}
@@ -22,6 +22,8 @@ export default class Converrency extends Component {
 	finishLoading = () => {
 		this.setState({ isLoading: false });
 
+		// Handle unexpected error and help app recover by clearing storage
+		// TODO: Only clear rates?
 		const errorHandler = (e, isFatal) => {
 			if (isFatal) {
 				AsyncStorage.clear();
@@ -35,8 +37,6 @@ export default class Converrency extends Component {
 				} catch (stackErr) {
 					logger.log('Error: ' + stackErr);
 				}
-
-				logger.trackException(errorStr, isFatal);
 
 				Alert.alert(
 					'Unexpected error occurred',
