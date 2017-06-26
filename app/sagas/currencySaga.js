@@ -1,4 +1,5 @@
-import { put, takeLatest, select, takeEvery, call, delay } from 'redux-saga/effects';
+import { put, takeLatest, select, takeEvery, call, fork } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 import moment from 'moment';
 
 import {
@@ -79,9 +80,9 @@ function* updateRates() {
 				yield put({ type: UPDATE_OPTION_TO, option: rates.allIds[0] });
 			}
 			yield put({ type: RECEIVE_RATES, rates: rates });
-			delay(4 * 60 * 60 * 1000); // 4 hours
+			yield delay(4 * 60 * 60 * 1000); // 4 hours
 		} else {
-			delay(1 * 60 * 1000); // 1min
+			yield delay(1 * 60 * 1000); // 1min
 		}
 	}
 }
