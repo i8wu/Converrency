@@ -1,4 +1,4 @@
-import { put, takeLatest, select, takeEvery, call } from 'redux-saga/effects';
+import { put, takeLatest, select, takeEvery, call, delay } from 'redux-saga/effects';
 import moment from 'moment';
 
 import {
@@ -68,17 +68,21 @@ function* updateOptionTo(action) {
 }
 
 function* updateRates() {
-	console.log('called');
-	const { optionFrom, optionTo }  = yield select(getCurrency);
-	const rates = yield call(currencyService.fetchRates);
+	while (true) {
+		const { optionFrom, optionTo }  = yield select(getCurrency);
+		const rates = yield call(currencyService.fetchRates);
 
-	if (rates) {
-		// Set default options if haven't been selected
-		if (!optionFrom || !optionTo) {
-			yield put({ type: UPDATE_OPTION_FROM, option: rates.allIds[0] });
-			yield put({ type: UPDATE_OPTION_TO, option: rates.allIds[0] });
+		if (rates) {
+			// Set default options if haven't been selected
+			if (!optionFrom || !optionTo) {
+				yield put({ type: UPDATE_OPTION_FROM, option: rates.allIds[0] });
+				yield put({ type: UPDATE_OPTION_TO, option: rates.allIds[0] });
+			}
+			yield put({ type: RECEIVE_RATES, rates: rates });
+			delay(4 * 60 * 60 * 1000); // 4 hours
+		} else {
+			delay(1 * 60 * 1000); // 1min
 		}
-		yield put({ type: RECEIVE_RATES, rates: rates });
 	}
 }
 
@@ -87,5 +91,5 @@ export default function* currencySaga() {
 	yield takeLatest(SUBMIT_OPTION_FROM, updateOptionFrom);
 	yield takeLatest(SUBMIT_OPTION_TO, updateOptionTo);
 	yield takeLatest(SUBMIT_CONVERSION, updateConversion);
-	yield call(updateRates);
+	yield fork(updateRates);
 }
