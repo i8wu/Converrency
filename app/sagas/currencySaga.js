@@ -80,9 +80,10 @@ function* updateRates() {
 				yield put({ type: UPDATE_OPTION_TO, option: rates.allIds[0] });
 			}
 			yield put({ type: RECEIVE_RATES, rates: rates });
-			yield delay(4 * 60 * 60 * 1000); // 4 hours
+			break;
 		} else {
-			yield delay(1 * 60 * 1000); // 1min
+			// retry in 1 min
+			yield delay(1 * 60 * 1000);
 		}
 	}
 }
@@ -92,5 +93,5 @@ export default function* currencySaga() {
 	yield takeLatest(SUBMIT_OPTION_FROM, updateOptionFrom);
 	yield takeLatest(SUBMIT_OPTION_TO, updateOptionTo);
 	yield takeLatest(SUBMIT_CONVERSION, updateConversion);
-	yield fork(updateRates);
+	yield call(updateRates);
 }
