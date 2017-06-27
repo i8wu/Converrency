@@ -1,10 +1,12 @@
 import React from 'react';
 import {
+	View,
+} from 'react-native';
+import {
 	Container,
 	Content,
 	Text,
 } from 'native-base';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 
 import Header from '../components/AppHeader';
 import ConversionCard from '../containers/ConversionCardActual';
@@ -15,19 +17,22 @@ const Home = () => (
 		<Header
 			title="Converrency"
 		/>
-		<Content
+		<View
 			// Keeps keyboard up if buttons are pressed
 			keyboardShouldPersistTaps="handled"
+			style={{ flex: 1 }}
 		>
-			<Grid>
-				<Row>
-					<ConversionCard />
-				</Row>
-				<Row>
-					<HistoryCard />
-				</Row>
-			</Grid>
-		</Content>
+			<View
+				style={{ flex: 1 }}
+			>
+				<ConversionCard />
+				</View>
+			<View
+				style={{ flex: 1.5 }}
+			>
+				<HistoryCard />
+			</View>
+		</View>
 	</Container>
 );
 

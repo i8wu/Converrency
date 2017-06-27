@@ -1,5 +1,8 @@
 import React from 'react';
 import {
+	View
+} from 'react-native';
+import {
 	Button,
 	Card,
 	CardItem,
@@ -9,7 +12,6 @@ import {
 	Picker,
 	Text,
 } from 'native-base';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 
 import Header from '../components/AppHeader';
 
@@ -19,35 +21,22 @@ const ConversionCard = ({
 }) => (
 	<Card>
 		<CardItem>
-			<Grid>
-				<Row>
-					<Col
-						size={2}
-					>
-						<CurrencyPicker
-							currencyList={currencyList}
-							selected={optionFrom}
-							onValueChange={(val) => onSelectFrom(val)}
-						/>
-					</Col>
-					<Col
-						size={1}
-					>
-						<SwapButton
-							onPress={swapOptions}
-						/>
-					</Col>
-					<Col
-						size={2}
-					>
-						<CurrencyPicker
-							currencyList={currencyList}
-							selected={optionTo}
-							onValueChange={(val) => onSelectTo(val)}
-						/>
-					</Col>
-				</Row>
-			</Grid>
+			<CurrencyPicker
+				currencyList={currencyList}
+				onValueChange={(val) => onSelectFrom(val)}
+				selected={optionFrom}
+				style={{ flex: 2 }}
+			/>
+			<SwapButton
+				onPress={swapOptions}
+				style={{ flex: 1 }}
+			/>
+			<CurrencyPicker
+				currencyList={currencyList}
+				onValueChange={(val) => onSelectTo(val)}
+				selected={optionTo}
+				style={{ flex: 2 }}
+			/>
 		</CardItem>
 		<CardItem>
 			<Item
@@ -81,10 +70,11 @@ const ConversionCard = ({
 
 export default ConversionCard;
 
-const SwapButton = ({ onPress }) => (
+const SwapButton = ({ onPress, style }) => (
 	<Button
 		light
 		onPress={() => onPress()}
+		style={{...style, ...{ justifyContent: 'center' }}}
 	>
 		<Icon
 			ios='ios-swap'
@@ -93,7 +83,7 @@ const SwapButton = ({ onPress }) => (
 	</Button>
 );
 
-const CurrencyPicker = ({ currencyList, onValueChange, selected }) => {
+const CurrencyPicker = ({ currencyList, onValueChange, selected, style }) => {
 	if (Array.isArray(currencyList)) {
 		// Map array to picker items
 		const items = currencyList.map((currency) => (
@@ -101,16 +91,20 @@ const CurrencyPicker = ({ currencyList, onValueChange, selected }) => {
 		));
 
 		return (
-			<Picker
-				supportedOrientations={['portrait']}
-				iosHeader="Select one"
-				headerBackButtonText="Go Back"
-				mode="dropdown"
-				selectedValue={selected ? selected : currencyList[0]}
-				onValueChange={(val) => onValueChange(val)}
+			<View
+				style={style}
 			>
-				{items}
-			</Picker>
+				<Picker
+					headerBackButtonText="Go Back"
+					iosHeader="Select one"
+					onValueChange={(val) => onValueChange(val)}
+					mode="dropdown"
+					selectedValue={selected ? selected : currencyList[0]}
+					supportedOrientations={['portrait']}
+				>
+					{items}
+				</Picker>
+			</View>
 		);
 	}
 }

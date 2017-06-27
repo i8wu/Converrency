@@ -4,9 +4,8 @@ import {
   Button,
 	Card,
 	CardItem,
+  Content,
   Icon,
-  List,
-  ListItem,
 	Text,
 } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
@@ -22,7 +21,7 @@ const ConversionCard = ({ history, removeHistory }) => {
       fromValue, convertedValue, optionFrom, optionTo, timestamp
     } = history.byId[key];
     return (
-      <ListItem
+      <CardItem
         key={key}
         style={styles.itemContainer}
       >
@@ -49,20 +48,20 @@ const ConversionCard = ({ history, removeHistory }) => {
             </Col>
           </Row>
         </Body>
-      </ListItem>
+      </CardItem>
     )
   });
 
   return (
   	<Card>
+      <Content>
       <CardItem header>
         <Text>
           History
         </Text>
       </CardItem>
-      <List>
-       {items}
-      </List>
+        {items}
+      </Content>
     </Card>
   );
 }
