@@ -43,34 +43,31 @@ class ConversionCardActual extends React.Component {
 		}
 	}
 
-	swapOptions = () => {
-		const { onSelectFrom, onSelectTo, optionFrom, optionTo } = this.props;
+	resetState = () => {
 		// clear values
 		this.setState({
 			convertedValue: null,
-			fromValue: null
+			fromValue: null,
+			error: false,
 		});
+	}
+
+	swapOptions = () => {
+		const { onSelectFrom, onSelectTo, optionFrom, optionTo } = this.props;
+		this.resetState();
 		onSelectFrom(optionTo);
 		onSelectTo(optionFrom);
 	}
 
 	updateFromOption = (option) => {
 		const { onSelectFrom } = this.props;
-		// clear values
-		this.setState({
-			convertedValue: null,
-			fromValue: null
-		});
+		this.resetState();
 		onSelectFrom(option);
 	}
 
 	updateToOption = (option) => {
 		const { onSelectTo } = this.props;
-		// clear values
-		this.setState({
-			convertedValue: null,
-			fromValue: null
-		});
+		this.resetState();
 		onSelectTo(option);
 	}
 
